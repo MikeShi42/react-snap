@@ -26,6 +26,7 @@ const defaultOptions = {
   puppeteer: {
     cache: true,
     navigationTimeout: 30000,
+    navigationWaitUntil: "networkidle0",
   },
   puppeteerArgs: [],
   puppeteerExecutablePath: undefined,

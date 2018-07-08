@@ -208,7 +208,7 @@ const crawl = async opt => {
         if (!shuttingDown) {
           console.log(`🔥  ${route}`, e);
         }
-        shuttingDown = true;
+        // shuttingDown = true;
       }
     } else {
       console.log(`🚧  skipping (${processed + 1}/${enqued}) ${route}`);

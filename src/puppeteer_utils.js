@@ -28,11 +28,11 @@ const skipThirdPartyRequests = async opt => {
  */
 const enableLogging = opt => {
   const { page, options, route, onError, sourcemapStore } = opt;
-  page.on("console", msg =>
-    Promise.all(msg.args().map(x => x.jsonValue())).then(args =>
-      console.log(`✏️  ${route} log:`, ...args)
-    )
-  );
+  // page.on("console", msg =>
+  //   Promise.all(msg.args().map(x => x.jsonValue())).then(args =>
+  //     console.log(`✏️  ${route} log:`, ...args)
+  //   )
+  // );
   page.on("error", msg => {
     console.log(`🔥  ${route} error:`, msg);
     onError && onError();
@@ -64,7 +64,11 @@ const enableLogging = opt => {
     }
     onError && onError();
   });
+  page.on('request', req => {
+    console.log('REQ SENT: ', req.url());
+  });
   page.on("response", response => {
+    console.log('RESPONSE RECV: ', response.url());
     if (response.status() >= 400) {
       console.log(`⚠️   ${response.status()} error: ${response.url()}`);
     }

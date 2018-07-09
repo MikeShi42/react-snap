@@ -31,7 +31,6 @@ const enableLogging = opt => {
   const urlz = new Set();
 
   const { page, options, route, onError, sourcemapStore } = opt;
-  await page.setRequestInterception(true);
   // page.on("console", msg =>
   //   Promise.all(msg.args().map(x => x.jsonValue())).then(args =>
   //     console.log(`✏️  ${route} log:`, ...args)
@@ -193,6 +192,7 @@ const crawl = async opt => {
     if (!shuttingDown && !skipExistingFile) {
       try {
         const page = await browser.newPage();
+        await page.setRequestInterception(true);
         await page.setCacheEnabled(options.puppeteer.cache);
         if (options.viewport) await page.setViewport(options.viewport);
         if (options.skipThirdPartyRequests)

@@ -27,6 +27,9 @@ const skipThirdPartyRequests = async opt => {
  * @return {void}
  */
 const enableLogging = opt => {
+
+  const urlz = new Set();
+
   const { page, options, route, onError, sourcemapStore } = opt;
   // page.on("console", msg =>
   //   Promise.all(msg.args().map(x => x.jsonValue())).then(args =>
@@ -64,10 +67,18 @@ const enableLogging = opt => {
     }
     onError && onError();
   });
-  page.on('request', req => {
-    console.log('REQ SENT: ', req.url());
+  page.on('request', request => {
+    if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
+      request.abort();
+    } else {
+      console.log('REQ SENT: ', request.url());
+      urlz.add(request.url());
+      console.log('URLZ', urlz);
+      request.continue();
+    }
   });
   page.on("response", response => {
+    urlz.delete(request.url());
     console.log('RESPONSE RECV: ', response.url());
     if (response.status() >= 400) {
       console.log(`⚠️   ${response.status()} error: ${response.url()}`);

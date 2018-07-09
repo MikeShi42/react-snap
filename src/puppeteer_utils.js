@@ -71,6 +71,7 @@ const enableLogging = opt => {
     // Don't follow redirects
     if (request.isNavigationRequest() && request.redirectChain().length) {
       request.abort();
+      return;
     }
     if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
       request.abort();

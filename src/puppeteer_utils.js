@@ -69,9 +69,9 @@ const enableLogging = opt => {
       console.log(`⚠️   ${response.status()} error: ${response.url()}`);
     }
   });
-  // page.on("requestfailed", msg =>
-  //   console.log(`${route} requestfailed:`, msg)
-  // );
+  page.on("requestfailed", msg =>
+    console.log(`${route} requestfailed:`, msg)
+  );
 };
 
 /**

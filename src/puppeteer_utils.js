@@ -68,6 +68,10 @@ const enableLogging = opt => {
     onError && onError();
   });
   page.on('request', request => {
+    // Don't follow redirects
+    if (request.isNavigationRequest() && request.redirectChain().length) {
+      request.abort();
+    }
     if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
       request.abort();
     } else {
